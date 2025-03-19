@@ -1,0 +1,93 @@
+import { Skeleton } from "@/components/ui/skeleton"
+
+export default function Loading() {
+  return (
+    <div className="flex min-h-screen flex-col">
+      {/* Header Skeleton */}
+      <header className="sticky top-0 z-10 border-b bg-background">
+        <div className="container flex h-16 items-center justify-between px-4">
+          <div className="flex items-center gap-2">
+            <Skeleton className="h-6 w-6 rounded-full" />
+            <Skeleton className="h-6 w-32" />
+          </div>
+          <div className="flex items-center gap-4">
+            <Skeleton className="h-10 w-10 rounded-full" />
+            <Skeleton className="h-10 w-10 rounded-full" />
+          </div>
+        </div>
+      </header>
+
+      {/* Main Content Skeleton */}
+      <div className="container flex-1 items-start md:grid md:grid-cols-[220px_1fr] lg:grid-cols-[240px_1fr] md:gap-6 lg:gap-10 px-4 py-6">
+        {/* Sidebar Skeleton */}
+        <aside className="fixed top-20 z-30 -ml-2 hidden h-[calc(100vh-5rem)] w-full shrink-0 md:sticky md:block">
+          <div className="flex flex-col gap-2 py-2">
+            {[1, 2, 3, 4, 5].map((item) => (
+              <Skeleton key={item} className="h-10 w-full" />
+            ))}
+          </div>
+        </aside>
+
+        {/* Content Skeleton */}
+        <main className="flex w-full flex-col gap-6">
+          {/* Search Section Skeleton */}
+          <section className="space-y-4">
+            <div>
+              <Skeleton className="h-8 w-48 mb-2" />
+              <Skeleton className="h-4 w-full max-w-md" />
+            </div>
+            <div className="flex gap-2">
+              <Skeleton className="h-10 flex-1" />
+              <Skeleton className="h-10 w-24" />
+            </div>
+          </section>
+
+          {/* Job Listings Skeleton */}
+          <section className="space-y-4">
+            <div className="flex items-center justify-between">
+              <Skeleton className="h-6 w-48" />
+              <Skeleton className="h-10 w-[180px]" />
+            </div>
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="rounded-lg border p-4">
+                  <div className="flex justify-between items-start mb-4">
+                    <div className="flex gap-3">
+                      <Skeleton className="h-10 w-10 rounded-full" />
+                      <div>
+                        <Skeleton className="h-5 w-32 mb-1" />
+                        <Skeleton className="h-4 w-24" />
+                      </div>
+                    </div>
+                    <Skeleton className="h-6 w-16 rounded-full" />
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex flex-wrap gap-2">
+                      <Skeleton className="h-6 w-32 rounded-full" />
+                      <Skeleton className="h-6 w-32 rounded-full" />
+                    </div>
+                    <Skeleton className="h-4 w-full" />
+                    <Skeleton className="h-4 w-full" />
+                    <div className="flex flex-wrap gap-1 mb-3">
+                      <Skeleton className="h-5 w-16 rounded-full" />
+                      <Skeleton className="h-5 w-16 rounded-full" />
+                      <Skeleton className="h-5 w-16 rounded-full" />
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <Skeleton className="h-4 w-24" />
+                      <Skeleton className="h-9 w-24 rounded-md" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-center mt-8">
+              <Skeleton className="h-10 w-40" />
+            </div>
+          </section>
+        </main>
+      </div>
+    </div>
+  )
+}
+
