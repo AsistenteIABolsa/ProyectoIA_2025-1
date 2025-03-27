@@ -106,10 +106,11 @@ export default function HomePage() {
             <div className="flex justify-center">
               <img
                 alt="Estudiantes y empresarios conectando"
-                className="aspect-video overflow-hidden rounded-xl object-cover"
-                src="https://via.placeholder.com/800x500"
+                className="w-40 sm:w-64 md:w-80 lg:w-96 xl:w-[500px] h-auto rounded-xl object-cover"
+                src="https://www.ceupe.com/images/easyblog_articles/1788/b2ap3_amp_empresas-tecnologicas.jpg"
               />
             </div>
+
           </div>
         </div>
       </section>
@@ -211,7 +212,7 @@ export default function HomePage() {
           </div>
           <div className="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-3 mt-12">
             <div className="flex flex-col items-center space-y-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white text-2xl font-bold">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-black text-2xl font-bold">
                 1
               </div>
               <h3 className="text-xl font-bold">Crea tu perfil</h3>
@@ -220,7 +221,7 @@ export default function HomePage() {
               </p>
             </div>
             <div className="flex flex-col items-center space-y-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white text-2xl font-bold">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-black text-2xl font-bold">
                 2
               </div>
               <h3 className="text-xl font-bold">Conecta</h3>
@@ -229,7 +230,7 @@ export default function HomePage() {
               </p>
             </div>
             <div className="flex flex-col items-center space-y-4">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-white text-2xl font-bold">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-black text-2xl font-bold">
                 3
               </div>
               <h3 className="text-xl font-bold">Crece</h3>
