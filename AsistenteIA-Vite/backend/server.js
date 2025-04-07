@@ -14,13 +14,14 @@ app.use(express.json());
 app.use(cors());
 
 // Rutas
-app.use("/api/auth", authRoutes);
+app.use("/api", authRoutes);
 
 // Conectar a MongoDB
 mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+  ssl: true,
+ // prueba esto si estás en Windows y te lanza error de certificados
 })
+
 .then(() => {
   console.log("🚀 Conectado a MongoDB");
   app.listen(PORT, () => console.log(`✅ Servidor corriendo en el puerto ${PORT}`));
