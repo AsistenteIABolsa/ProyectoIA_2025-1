@@ -29,16 +29,38 @@ export default function RegisterPage() {
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
-
-    // Simulación de registro
-    setTimeout(() => {
-      setIsLoading(false)
+  
+    const role = activeTab // para enviar si es student, employer o admin
+    const payload = { ...formData, role }
+  
+    try {
+      const res = await fetch("http://localhost:5000/api/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      })
+  
+      const data = await res.json()
+  
+      if (!res.ok) {
+        throw new Error(data.message || "Error en el registro")
+      }
+  
+      // Registro exitoso
+      alert("Registro exitoso 🎉")
       navigate("/login")
-    }, 1500)
+    } catch (error) {
+      alert("error al registrar")
+    } finally {
+      setIsLoading(false)
+    }
   }
+  
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-12">
@@ -488,7 +510,7 @@ export default function RegisterPage() {
                 >
                   <option value="">Selecciona departamento</option>
                   <option value="it">TI</option>
-                  <option value="career">Servicios de Carrera</option>
+                  <option value="Servicios de Carrera">Servicios de Carrera</option>
                   <option value="academic">Asuntos Académicos</option>
                   <option value="student">Servicios Estudiantiles</option>
                 </select>
