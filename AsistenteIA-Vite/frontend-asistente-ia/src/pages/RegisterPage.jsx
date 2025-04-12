@@ -35,6 +35,8 @@ export default function RegisterPage() {
   
     const role = activeTab // para enviar si es student, employer o admin
     const payload = { ...formData, role }
+    console.log("📦 Payload enviado:", payload) // <- Agrega esto
+    console.log("Rol enviado:", role)
   
     try {
       const res = await fetch("http://localhost:5000/api/register", {
@@ -55,6 +57,7 @@ export default function RegisterPage() {
       alert("Registro exitoso 🎉")
       navigate("/login")
     } catch (error) {
+      console.log(error)
       alert("error al registrar")
     } finally {
       setIsLoading(false)

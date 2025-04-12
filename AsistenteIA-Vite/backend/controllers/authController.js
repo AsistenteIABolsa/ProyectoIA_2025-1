@@ -6,6 +6,7 @@ require("dotenv").config();
 // Registro de usuario
 exports.register = async (req, res) => {
   try {
+    console.log("Datos recibidos:", req.body); // <--- AGREGAR ESTO
     const { firstName, lastName, email, password, role, studentId, major, graduationYear, companyName, industry, companySize, adminId, department, accessLevel } = req.body;
 
     // Verificar si el usuario ya existe
@@ -35,6 +36,7 @@ exports.register = async (req, res) => {
     await newUser.save();
     res.status(201).json({ message: "Usuario registrado con éxito" });
   } catch (error) {
+    console.error("❌ Error al registrar:", error.message);
     res.status(500).json({ message: "Error en el servidor", error });
   }
 };
