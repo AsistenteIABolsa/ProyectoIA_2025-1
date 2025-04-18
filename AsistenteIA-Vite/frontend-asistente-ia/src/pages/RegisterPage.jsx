@@ -33,9 +33,16 @@ export default function RegisterPage() {
     e.preventDefault()
     setIsLoading(true)
   
-    const role = activeTab // para enviar si es student, employer o admin
-    const payload = { ...formData, role }
-    console.log("📦 Payload enviado:", payload) // <- Agrega esto
+    const role = activeTab === "employer" ? "empresario" : activeTab
+
+    const payload = {
+      ...formData,
+      role,
+      //firstName: formData.contactName, // mapear al campo requerido
+      //lastName: "", // puedes dejar un valor por defecto si no lo divides
+    }
+
+   // console.log("📦 Payload enviado:", payload) // <- Agrega esto
     console.log("Rol enviado:", role)
   
     try {
@@ -290,18 +297,31 @@ export default function RegisterPage() {
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="contactName">Nombre de contacto</label>
-                <input
-                  id="contactName"
-                  name="contactName"
-                  className="form-control"
-                  value={formData.contactName}
-                  onChange={handleChange}
-                  placeholder="María López"
-                  required
-                />
-              </div>
+             
+                <div className="form-group">
+                  <label htmlFor="firstName">Nombre de contacto</label>
+                  <input
+                    id="firstName"
+                    name="firstName"
+                    className="form-control"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    placeholder="Sebastian"
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="lastName">Apellido</label>
+                  <input
+                    id="lastName"
+                    name="lastName"
+                    className="form-control"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    placeholder="Gómez"
+                    required
+                  />
+                </div>
 
               <div className="form-group">
                 <label htmlFor="email">Correo electrónico</label>
@@ -519,44 +539,7 @@ export default function RegisterPage() {
                 </select>
               </div>
 
-              <div className="form-group">
-                <label>Nivel de acceso</label>
-                <div className="space-y-2">
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      id="standard"
-                      name="accessLevel"
-                      value="standard"
-                      checked={formData.accessLevel === "standard"}
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="standard">Estándar</label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      id="elevated"
-                      name="accessLevel"
-                      value="elevated"
-                      checked={formData.accessLevel === "elevated"}
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="elevated">Elevado</label>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="radio"
-                      id="superadmin"
-                      name="accessLevel"
-                      value="superadmin"
-                      checked={formData.accessLevel === "superadmin"}
-                      onChange={handleChange}
-                    />
-                    <label htmlFor="superadmin">Super Administrador</label>
-                  </div>
-                </div>
-              </div>
+              
 
               <button type="submit" className="btn btn-primary w-full" disabled={isLoading}>
                 {isLoading ? "Registrando..." : "Registrarse como Administrador"}

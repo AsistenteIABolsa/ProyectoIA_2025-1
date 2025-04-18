@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   lastName: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ["student", "employer", "admin"], required: true },
+  role: { type: String, enum: ["student", "empresario", "admin"], required: true },
   
   // Datos específicos según el rol
   studentId: { type: String, required: function () { return this.role === "student"; } },
@@ -30,5 +30,9 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-const User = mongoose.model("Usuarios", UserSchema);
-module.exports = User;
+const Student = mongoose.model("Estudiantes", UserSchema);
+const Empresario = mongoose.model("Empresarios", UserSchema);
+const Admin = mongoose.model("Administradores", UserSchema);
+
+module.exports = { Student, Empresario, Admin };
+

@@ -1,4 +1,4 @@
-const User = require("../models/userModel");
+const { Student, Empresario, Admin } = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -6,17 +6,8 @@ require("dotenv").config();
 // Registro de usuario
 exports.register = async (req, res) => {
   try {
-    console.log("Datos recibidos:", req.body); // <--- AGREGAR ESTO
-    const { firstName, lastName, email, password, role, studentId, major, graduationYear, companyName, industry, companySize, adminId, department, accessLevel } = req.body;
-
-    // Verificar si el usuario ya existe
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "El correo ya está registrado" });
-    }
-
-    // Crear nuevo usuario
-    const newUser = new User({
+    console.log("Datos recibidos:", req.body); 
+    const {
       firstName,
       lastName,
       email,
@@ -31,10 +22,32 @@ exports.register = async (req, res) => {
       adminId,
       department,
       accessLevel
-    });
+    } = req.body;
+
+    // Verificar si el correo ya está registrado (en todas las colecciones)
+    const existsInStudent = await Student.findOne({ email });
+    const existsInEmpresario = await Empresario.findOne({ email });
+    const existsInAdmin = await Admin.findOne({ email });
+
+    if (existsInStudent || existsInEmpresario || existsInAdmin) {
+      return res.status(400).json({ message: "El correo ya está registrado" });
+    }
+
+    let newUser;
+
+    if (role === "student") {
+      newUser = new Student({ firstName, lastName, email, password, role, studentId, major, graduationYear });
+    } else if (role === "empresario") {
+      newUser = new Empresario({ firstName, lastName, email, password, role, companyName, industry, companySize });
+    } else if (role === "admin") {
+      newUser = new Admin({ firstName, lastName, email, password, role, adminId, department, accessLevel });
+    } else {
+      return res.status(400).json({ message: "Rol no válido" });
+    }
 
     await newUser.save();
     res.status(201).json({ message: "Usuario registrado con éxito" });
+
   } catch (error) {
     console.error("❌ Error al registrar:", error.message);
     res.status(500).json({ message: "Error en el servidor", error });
