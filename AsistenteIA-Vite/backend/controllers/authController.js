@@ -56,26 +56,38 @@ exports.register = async (req, res) => {
 
 // Inicio de sesión
 exports.login = async (req, res) => {
+  const { email, password, role } = req.body;
+
   try {
-    const { email, password } = req.body;
-    
-    // Verificar si el usuario existe
-    const user = await User.findOne({ email });
-    if (!user) {
-      return res.status(400).json({ message: "Correo o contraseña incorrectos" });
+    let user;
+
+    // Selección del modelo según el rol
+    if (role === "student") {
+      user = await Student.findOne({ email });
+    } else if (role === "employer") {
+      user = await Empresario.findOne({ email });
+    } else if (role === "admin") {
+      user = await Admin.findOne({ email });
+    } else {
+      return res.status(400).json({ message: "Rol no válido" });
     }
 
-    // Comparar contraseña
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ message: "Correo o contraseña incorrectos" });
+      return res.status(401).json({ message: "Contraseña incorrecta" });
     }
 
-    // Generar token JWT
-    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "1d" });
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+      expiresIn: "2h"
+    });
 
-    res.status(200).json({ message: "Inicio de sesión exitoso", token, user: { id: user._id, firstName: user.firstName, lastName: user.lastName, email: user.email, role: user.role } });
+    res.status(200).json({ message: "Login exitoso", token, user });
   } catch (error) {
-    res.status(500).json({ message: "Error en el servidor", error });
+    console.error("❌ Error en login:", error);
+    res.status(500).json({ message: "Error interno del servidor" });
   }
 };

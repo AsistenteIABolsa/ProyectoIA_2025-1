@@ -48,17 +48,31 @@ export default function NewJob() {
     }))
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setIsSubmitting(true)
-
-    // Simulación de publicación
-    setTimeout(() => {
-      setIsSubmitting(false)
-      navigate("/employer/dashboard")
-    }, 1500)
-  }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    try {
+      const res = await fetch("http://localhost:5000/api/jobs", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      const data = await res.json();
+      console.log(data);
+  
+      if (res.ok) {
+        alert("Vacante publicada correctamente");
+      } else {
+        alert("Error: " + data.error);
+      }
+    } catch (err) {
+      console.error("Error al enviar solicitud:", err);
+    }
+  };
+  
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="mb-8">

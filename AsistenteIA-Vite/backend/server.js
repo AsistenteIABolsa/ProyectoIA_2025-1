@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
+const jobsRoutes = require("./routes/jobsRoutes");
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(cors());
 
 // Rutas
 app.use("/api", authRoutes);
+app.use("/api", jobsRoutes);
 
 // Conectar a MongoDB
 mongoose.connect(process.env.MONGO_URI, {

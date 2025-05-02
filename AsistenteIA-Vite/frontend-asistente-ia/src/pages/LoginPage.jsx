@@ -10,23 +10,44 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    setIsLoading(true)
-
-    // Simulación de autenticación
-    setTimeout(() => {
-      setIsLoading(false)
-      // Redirigir según el rol
-      if (role === "student") {
-        navigate("/student/dashboard")
-      } else if (role === "employer") {
-        navigate("/employer/dashboard")
-      } else if (role === "admin") {
-        navigate("/admin/dashboard")
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsLoading(true);
+  
+    try {
+      const res = await fetch("http://localhost:5000/api/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password, role }) // role puede venir del tab activo
+      });
+  
+      const data = await res.json();
+  
+      if (!res.ok) {
+        throw new Error(data.message || "Error al iniciar sesión");
       }
-    }, 1500)
-  }
+  
+      // Guardar el token (opcional)
+      localStorage.setItem("token", data.token);
+  
+      // Redirigir según el rol
+      if (data.user.role === "student") {
+        navigate("/student/dashboard");
+      } else if (data.user.role === "empresario" || userRole === "employer") { 
+        navigate("/employer/dashboard");
+      } else if (data.user.role === "admin") {
+        navigate("/admin/dashboard");
+      }
+    } catch (error) {
+      console.error("❌ Login error:", error);
+      alert("Credenciales incorrectas");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
 
   return (
     <div className="flex min-h-screen flex-col">
